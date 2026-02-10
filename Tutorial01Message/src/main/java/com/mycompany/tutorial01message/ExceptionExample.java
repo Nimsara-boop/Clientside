@@ -8,7 +8,7 @@ package com.mycompany.tutorial01message;
  *
  * @author Nimsara
  */
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ExceptionExample {
@@ -51,6 +51,15 @@ public class ExceptionExample {
         }
         finally{
             input.close();
+        }
+        
+        //   NullPointerException
+        try{
+            String name = null;
+            System.out.println("The length of the String 'name' is "+name.length());
+        }
+        catch (NullPointerException e){
+            System.out.println("The String is null");
         }
     }
 }
