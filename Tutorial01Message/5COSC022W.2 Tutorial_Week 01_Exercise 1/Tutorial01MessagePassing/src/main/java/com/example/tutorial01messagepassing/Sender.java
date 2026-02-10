@@ -6,14 +6,17 @@ package com.example.tutorial01messagepassing;
 
 // Sender class to create and send a message
 public class Sender {
-    public Message createMessage(String content) {
-        Message message = new Message(content);
+    Message m;
+    
+    public void createMessage(String content) {
+        m = new Message(content);
         System.out.println("Message created: " + content);
-        return message;
+        this.sendMessage();
     }
 
-    public void sendMessage(Message message, Receiver receiver) {
+    public void sendMessage() {
         System.out.println("Sending message to receiver...");
-        receiver.receiveMessage(message);
+        Receiver r = new Receiver();
+        r.receiveMessage(m);
     }
 }

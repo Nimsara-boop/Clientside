@@ -11,7 +11,7 @@ package com.mycompany.tutorial01message;
 public class Reciever {
     public void recieveMessage(Message m){
         System.out.println("Message recieed");
-        System.out.println(m);
+        System.out.println(m.getContent());
     }
     
 }
