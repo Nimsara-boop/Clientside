@@ -29,7 +29,7 @@ public class ExceptionExample {
             System.out.println("Division by sero is not allowed");
         }
         catch (Exception e){
-            System.out.println("an unexpected error occured");
+            System.out.println("Unexpected error occured");
             e.printStackTrace();
         }
         
