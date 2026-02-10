@@ -9,11 +9,11 @@ package com.mycompany.tutorial01message;
  * @author Nimsara
  */
 public class Sender {
-    Message m;
+    
+    
     public void createMessage(String text){
-        m = new Message(text);
+        Message m = new Message(text);
         System.out.println("Message created");
-        this.sendMessage();
     }
     
     public void sendMessage(){
