@@ -26,10 +26,10 @@ public class UserProcessor implements Runnable {
     
     @Override
     public void run(){
-        synchronized lock(){
-            if (validator.isValidAge()){
+        synchronized (lock){
+            if (validator.isValidAge(age)){
                 System.out.println("Processing...");
-                dataStore.addUser(User(name, age));
+                dataStore.addUser(new User(name, age));
             }
             System.out.println("Invalid user");
         }
