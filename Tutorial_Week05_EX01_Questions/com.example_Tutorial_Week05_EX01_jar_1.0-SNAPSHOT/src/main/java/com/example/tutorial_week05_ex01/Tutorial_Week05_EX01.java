@@ -28,7 +28,7 @@ public class Tutorial_Week05_EX01 {
      * (e.g., "id", "title", "genre") and values as the corresponding values.
      * This is a simple in-memory store; for real applications, use a database.
      */
-    private static List<Map<String, Object>> movies = new ArrayList<>();
+    private static List<Map<String, Object>> movies = new ArrayList<>();  //This list stores multiple movies; each Map represents one movie
 
     /*
      * Please define the main method, the entry point of the application.
@@ -49,8 +49,8 @@ public class Tutorial_Week05_EX01 {
          * Use HttpServer.create() with an InetSocketAddress and a backlog of 0.
          */
         
-        
-        
+        HttpServer server = HttpServer.create();
+        server.bind(new InetSocketAddress(8080), 0);
         
 
         /*
@@ -67,14 +67,15 @@ public class Tutorial_Week05_EX01 {
          */
         
         
-        
+        server.createContext("/movies", new MoviesHandler());
+        server.createContext("/movies/", new MovieHandler());
         
 
         /*
          * Please set the server's executor to null to use the default executor.
          * For larger applications, consider using a thread pool.
          */
-        
+        server.setExecutor(null);
         
         
 
@@ -82,7 +83,8 @@ public class Tutorial_Week05_EX01 {
          * Please start the server and print "server started on port 8080"
          */
         
-        
+        server.start();
+        System.out.println("Server started on port 8080");
         
         
     }
@@ -95,7 +97,15 @@ public class Tutorial_Week05_EX01 {
     
     
     
+    public static void addMovie(int id, String title, String genre){
+        Map<String, Object> movie = new HashMap<>();
+        movie.put("id", id);
+        movie.put("title", title);
+        movie.put("genre", genre);
+        
+        movies.add(movie);
     
+    }
     
     
     
@@ -113,6 +123,11 @@ public class Tutorial_Week05_EX01 {
          * - Otherwise, send a 405 Method Not Allowed response.
          */
         
+        public static void handle(exchange){
+            if (GET){
+                handleGetMovies(exchange);
+            }
+        }
         
         
         
