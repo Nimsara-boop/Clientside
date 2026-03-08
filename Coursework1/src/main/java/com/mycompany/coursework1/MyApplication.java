@@ -14,7 +14,7 @@ import javax.ws.rs.core.Application;
  * @author Nimsara
  */
 
-@ApplicationPath("/rest")
+@ApplicationPath("/api/v1")
 public class MyApplication extends Application {
 
     @Override

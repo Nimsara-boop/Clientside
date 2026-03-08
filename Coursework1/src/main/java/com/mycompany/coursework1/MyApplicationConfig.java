@@ -7,8 +7,8 @@
 /**
  *
  * @author Nimsara
- */
-/*import org.glassfish.jersey.server.ResourceConfig;
+*//*
+import org.glassfish.jersey.server.ResourceConfig;
 
 public class MyApplicationConfig extends ResourceConfig {
 
