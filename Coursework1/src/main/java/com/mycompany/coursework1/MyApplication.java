@@ -21,6 +21,7 @@ public class MyApplication extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(DiscoveryResource.class);
+        classes.add(RoomResource.class);
         return classes;
     }
 }
