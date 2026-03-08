@@ -9,12 +9,14 @@ package com.mycompany.coursework1;
  * @author Nimsara
  */
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,29 +24,31 @@ import javax.ws.rs.core.Response;
 
 public class SensorRoomResource {
     private static int index =0;
+    private static Map<String, Room> roomlinks = new HashMap<>();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRoom() {
-        String metadata = "This is room";
-        return Response.ok(metadata).build();
+        if (roomlinks.isEmpty()){
+          String reply = "No rooms added yet";
+          return Response.ok(reply).build();
+        }
+        //String metadata = "This is room";
+        return Response.ok(roomlinks.values()).build();
     }
 
     @POST
-    public static void addRoom(String num){
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addRoom(Room room){
         index++;
-        String="ROOM"+index;
-        Room R = new Room()
-        Map<String, Object> rooms = new HashMap<>();
-        rooms.put("room"+Room.getID(), "room"+{id});
-        metadata.put("contact", "admin@example.com");
         
-        Map<String, String> links = new HashMap<>();
-        links.put("rooms", "/Coursework1/api/v1/rooms");
-        metadata.put("collections", links);
-            
-    
+        roomlinks.put(room.getID(), room);
+        return Response.ok("Room created successfully").build();
     }
+    
+    
+    
             
     
 }
