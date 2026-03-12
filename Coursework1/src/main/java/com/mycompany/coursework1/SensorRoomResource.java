@@ -47,6 +47,11 @@ public class SensorRoomResource {
         return Response.ok("Room created successfully").build();
     }
     
+    @DELETE
+    public Response deleteRoom(Room room){
+       roomlinks.remove(room.getID());  
+       return Response.ok("Room deleted").build();
+    }
     
     
             
