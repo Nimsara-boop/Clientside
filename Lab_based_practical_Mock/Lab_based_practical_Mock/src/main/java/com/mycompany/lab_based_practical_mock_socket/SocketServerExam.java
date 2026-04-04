@@ -18,10 +18,13 @@ public class SocketServerExam {
     public static void main(String[] args) {
         
         /* TODO 1: Define a port number (e.g., 6666) to listen on. [1 Mark] */
+        int port = 6666;
 
         
         /* TODO 2: Initialize a ServerSocket object bound to the defined port. 
          * Use a try-catch block or declare throws to handle IOException. [2 Marks] */
+        try (ServerSocket server = new ServerSocket (port)){
+        }catch (IOException e){System.out.println("IOExcpetion");}
 
 
         System.out.println("Server started. Waiting for connections...");
