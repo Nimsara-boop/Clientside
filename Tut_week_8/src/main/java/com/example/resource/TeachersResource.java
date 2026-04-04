@@ -14,6 +14,7 @@ import com.example.model.Teacher;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import com.example.exception.DataNotFoundException;
 
 @Path("/teachers")
 public class TeachersResource {
@@ -32,7 +33,11 @@ public class TeachersResource {
     @Path("/{teacherId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Teacher getTeacherById(@PathParam("teacherId") int teacherId) {
-        return teacherDAO.getById(teacherId);
+        Teacher teacher = teacherDAO.getById(teacherId);
+        if (teacher == null) { // This will be caught by our DataNotFoundExceptionMapper!
+            throw new DataNotFoundException("Teacher with ID " + teacherId + "not found.");
+        }
+        return teacher;
     }
 
     @POST
@@ -42,14 +47,28 @@ public class TeachersResource {
     }
 
     @PUT
+    @Path("/{teacherId}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateTeacher(Teacher teacher) {
-        teacherDAO.update(teacher);
+    public void updateTeacher(@PathParam("teacherId") int teacherId) {
+        Teacher t = teacherDAO.getById(teacherId);
+        if (t== null) { // This will be caught by our DataNotFoundExceptionMapper!
+            throw new DataNotFoundException("Teacher with ID " + teacherId+ "not found.");
+        }
+        teacherDAO.update(t);
     }
-    
+
     @DELETE
+    @Path("/{teacherId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void delete(int i){
-        teacherDAO.delete(i);
+    @Produces(MediaType.APPLICATION_JSON)
+    public void delete(@PathParam("teacherId") int teacherId) {
+        Teacher t = teacherDAO.getById(teacherId);
+        if (t== null) { // This will be caught by our DataNotFoundExceptionMapper!
+            throw new DataNotFoundException("Teacher with ID " + teacherId + "not found.");
+        }
+    
+        teacherDAO.delete(teacherId);
     }
 }
+

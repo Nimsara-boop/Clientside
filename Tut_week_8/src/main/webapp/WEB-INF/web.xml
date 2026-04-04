@@ -14,7 +14,7 @@
  <init-param>
  <param-name>jersey.config.server.provider.packages</param-name>
  <!-- Point this to your resource package! -->
- <param-value>com.example.resource</param-value>
+ <param-value>com.example</param-value>
  </init-param>
  <load-on-startup>1</load-on-startup>
  </servlet>
