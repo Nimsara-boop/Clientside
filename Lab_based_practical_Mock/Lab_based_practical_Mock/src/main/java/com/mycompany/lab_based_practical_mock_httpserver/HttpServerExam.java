@@ -35,15 +35,16 @@ public class HttpServerExam {
 
 
         /* TODO 3: Create a context for the path "/data" and associate it with the DataHandler. [2 Marks] */
+        server.createContext("/data", new DataHandler());
 
 
         /* TODO 4: Set the executor to null. 
          * This creates a default execution model (single-lane bottleneck). 
          * (Lecture Slide 33: Default Dispatcher). [2 Marks] */
-
+        server.setExecutor(null);
 
         /* TODO 5: Start the server. [2 Marks] */
-
+        server.start();
 
         System.out.println("HTTP Server started on port 8000...");
     }
@@ -54,28 +55,37 @@ public class HttpServerExam {
         public void handle(HttpExchange exchange) throws IOException {
             
             /* TODO 6: Retrieve the Request Method from the exchange object. [2 Marks] */
+            String method = exchange.getRequestMethod();
 
 
             /* TODO 7: Write an if-statement to check if the method is "GET". [2 Marks] */
-
+            if (method.equalsIgnoreCase("GET")){
                 
-                String response = "<html><body><h1>Welcome to the Lab Exam</h1></body></html>";
-                
+                String response = "<html><body><div>Hello welcome</div><body><html>";
                 /* TODO 8: Send the Response Headers. 
                  * Set the status code to 200 (OK) and the length to the length of the response bytes. [4 Marks] */
+                byte[] res = response.getBytes();
+                exchange.sendResponseHeaders(200, res.length);
 
 
                 /* TODO 9: Get the Response Body as an OutputStream. [2 Marks] */
-
-
+                OutputStream output = exchange.getResponseBody();
+                
+                
                 /* TODO 10: Write the response string (converted to bytes) to the output stream. [2 Marks] */
+                byte[] bytes = response.getBytes();
+                output.write(bytes);
 
 
                 /* TODO 11: Close the output stream to finish the transaction. [2 Marks] */
-
+                output.close();
+            
+            }
              
             /* TODO 12: Add an 'else' block. If the method is NOT "GET", send a 405 (Method Not Allowed) response.
              * Set content length to -1 (no body). [3 Marks] */
+            else{
+                  exchange.sendResponseHeaders(405, -1);  }
 
         }
     }
@@ -87,20 +97,27 @@ public class HttpServerExam {
             
             /* TODO 13: Check if the request method is "POST". 
              * If it is NOT POST, send a 405 response and return immediately. [3 Marks] */
-
-
+            if (!"POST".equals(exchange.getRequestMethod())){
+                exchange.sendResponseHeaders(405, -1);
+                return;
+            }else{
+                Headers header = exchange.getRequestHeaders();
             /* TODO 14: Retrieve the Request Headers. [2 Marks] */
 
             
             /* TODO 15: Retrieve the "User-Agent" header from the headers object and print it to the console. 
              * (This is useful for debugging/logging). [3 Marks] */
+            String headera = header.getFirst("User-Agent");
+                System.out.println("User-Agent: "+headera);
 
 
             /* TODO 16: Get the Request Body as an InputStream. [2 Marks] */
+            InputStream input = exchange.getRequestBody();
 
 
             /* TODO 17: Read all bytes from the input stream and store them in a byte array. 
              * (This simulates reading the payload sent by the client). [2 Marks] */
+            byte[] bytes = input.readAllBytes();
 
 
             // Mock processing - we just ignore the input for this exam and send a JSON response.
@@ -108,13 +125,21 @@ public class HttpServerExam {
 
             /* TODO 18: Set a specific response header "Content-Type" to "application/json".
              * Use exchange.getResponseHeaders().set(...). [3 Marks] */
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
 
-
+            byte[] res = jsonResponse.getBytes();
             /* TODO 19: Send response headers: Status 200 and the length of the jsonResponse bytes. [3 Marks] */
+            exchange.sendResponseHeaders(200, res.length);
 
 
             /* TODO 20: Write the jsonResponse bytes to the response body and close the stream.
              * Ensure you use try-with-resources or explicitly close the stream. [4 Marks] */
+             OutputStream output = exchange.getResponseBody();
+             byte[] newb = jsonResponse.getBytes();
+
+             output.write(newb);
+            output.close();
+            }
 
         }
     }
