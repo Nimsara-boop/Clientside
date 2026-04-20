@@ -23,15 +23,16 @@ import javax.ws.rs.core.Response;
 @Path("/rooms")
 
 public class SensorRoomResource {
-    private static int index =0;
+
+    private static int index = 0;
     private static Map<String, Room> roomlinks = new HashMap<>();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRoom() {
-        if (roomlinks.isEmpty()){
-          String reply = "No rooms added yet";
-          return Response.ok(reply).build();
+        if (roomlinks.isEmpty()) {
+            String reply = "No rooms added yet";
+            return Response.ok(reply).build();
         }
         //String metadata = "This is room";
         return Response.ok(roomlinks.values()).build();
@@ -40,20 +41,24 @@ public class SensorRoomResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addRoom(Room room){
+    public Response addRoom(Room room) {
         index++;
-        
+
         roomlinks.put(room.getID(), room);
         return Response.ok("Room created successfully").build();
     }
-    
+
     @DELETE
-    public Response deleteRoom(Room room){
-       roomlinks.remove(room.getID());  
-       return Response.ok("Room deleted").build();
+    public Response deleteRoom(Room room) {
+        if (roomlinks.containsValue(room)) {
+            if (room.getSensorsIds().isEmpty()) {
+                roomlinks.remove(room.getID());
+                return Response.ok("Room deleted").build();
+            } else {
+                return Response.ok("Cannot delete room without deleting the sensors in that room first").build();
+            }
+        }
+        else return Response.ok("No such room found. No rooms are deleted").build();
     }
-    
-    
-            
-    
-}
+
+    }
