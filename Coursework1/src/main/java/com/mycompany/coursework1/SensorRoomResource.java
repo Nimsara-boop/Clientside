@@ -17,6 +17,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -29,13 +30,26 @@ public class SensorRoomResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRoom() {
+    public Response getAllRooms() {
         if (roomlinks.isEmpty()) {
             String reply = "No rooms added yet";
             return Response.ok(reply).build();
         }
         //String metadata = "This is room";
         return Response.ok(roomlinks.values()).build();
+    }
+
+    @GET
+    @Path("/{roomId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRoom(@PathParam("roomId") String roomId) {
+        for (Map.Entry<String, Room> entry : roomlinks.entrySet()) {
+            if (entry.getKey().equals(roomId)) {
+                return Response.ok(entry.getValue()).build();
+            }
+        }
+        //String metadata = "This is room";
+        return Response.ok("Room not found").build();
     }
 
     @POST
@@ -57,8 +71,9 @@ public class SensorRoomResource {
             } else {
                 return Response.ok("Cannot delete room without deleting the sensors in that room first").build();
             }
+        } else {
+            return Response.ok("No such room found. No rooms are deleted").build();
         }
-        else return Response.ok("No such room found. No rooms are deleted").build();
     }
 
-    }
+}

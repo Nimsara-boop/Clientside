@@ -29,6 +29,7 @@ public class DiscoveryResource {
         
         Map<String, String> links = new HashMap<>();
         links.put("rooms", "/Coursework1/api/v1/rooms");
+        links.put("sensors", "/Coursework1/api/v1/sensors");
         metadata.put("collections", links);
 
         return Response.ok(metadata).build();

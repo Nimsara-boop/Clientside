@@ -16,7 +16,7 @@ public class Room {
     private String id;
     private String name;
     private int capacity;
-    private List<String> sensorsIds = new ArrayList<>();
+    private List<String> sensorIds = new ArrayList<>();
 
 
     public Room() {
@@ -26,7 +26,7 @@ public class Room {
         this.id = id;
         name=n;
         capacity=c;
-        this.sensorsIds = sensorsIds;
+        this.sensorIds = sensorsIds;
     }
 
     public String getName() {
@@ -46,15 +46,15 @@ public class Room {
     }
 
     public List<String> getSensorsIds() {
-        return sensorsIds;
+        return sensorIds;
     }
 
     public void setSensorsIds(List<String> sensorsIds) {
-        this.sensorsIds = sensorsIds;
+        this.sensorIds = sensorsIds;
     }
 
     public void addSensorId(Sensor sensor){
-        this.sensorsIds.add(sensor.getId());
+        this.sensorIds.add(sensor.getId());
     }
     
     public void setID(String id) {
