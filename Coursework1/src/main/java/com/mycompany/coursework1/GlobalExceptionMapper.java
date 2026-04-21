@@ -14,13 +14,13 @@ import javax.ws.rs.ext.Provider;
  * @author Nimsara
  */
 @Provider
-public class SensorUnavailableExceptionMapper implements ExceptionMapper<SensorUnavailableException> {
+public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
-    public Response toResponse(SensorUnavailableException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(),403, "Forbidden Status");
+    public Response toResponse(Throwable exception) {
+        ErrorMessage errorMessage = new ErrorMessage("Unexpected Error Occured",500, "Internal Server Error");
         
-        return Response.status(Response.Status.FORBIDDEN)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                        .entity(errorMessage)
                        .type(MediaType.APPLICATION_JSON)
                        .build();

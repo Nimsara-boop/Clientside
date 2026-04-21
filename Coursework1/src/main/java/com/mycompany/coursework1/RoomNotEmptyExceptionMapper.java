@@ -1,6 +1,7 @@
 package com.mycompany.coursework1;
 
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -19,10 +20,11 @@ public class RoomNotEmptyExceptionMapper implements ExceptionMapper<RoomNotEmpty
 
     @Override
     public Response toResponse(RoomNotEmptyException exception) {
-        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(),404, "https://coursework1/api/v1/errors");
+        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage(),409, "Conflict");
         
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.CONFLICT)
                        .entity(errorMessage)
+                       .type(MediaType.APPLICATION_JSON)
                        .build();
     }
 }

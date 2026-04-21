@@ -8,6 +8,10 @@ package com.mycompany.coursework1;
  *
  * @author Nimsara
  */
-public class LinkedResourceNotFoundException {
-    
+public class LinkedResourceNotFoundException extends RuntimeException {
+
+    public LinkedResourceNotFoundException(String message) {
+        super(message);
+    }
 }
+
