@@ -8,11 +8,10 @@ package com.mycompany.coursework1;
  *
  * @author Nimsara
  */
-public enum Status {
-    ACTIVE,
-    MAINTENANCE,
-    OFFLINE,
-    UNRECORDED,
-    
-    
+public class RoomNotEmptyException extends RuntimeException {
+
+    public RoomNotEmptyException(String message) {
+        super(message);
+    }
 }
+

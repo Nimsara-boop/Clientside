@@ -53,6 +53,10 @@ public class Room {
         this.sensorsIds = sensorsIds;
     }
 
+    public void addSensorId(Sensor sensor){
+        this.sensorsIds.add(sensor.getId());
+    }
+    
     public void setID(String id) {
         this.id = id;
     }

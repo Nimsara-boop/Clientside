@@ -6,6 +6,7 @@ package com.mycompany.coursework1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors; 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,13 +24,14 @@ import javax.ws.rs.core.Response;
  */
 @Path("/sensors/")
 public class SensorResource {
-    private ArrayList<Sensor> sensorList= new ArrayList<>();;
+    public static ArrayList<Sensor> sensorList= new ArrayList<>();
+    private static Map<String, Room> roomList = SensorRoomResource.roomlinks;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response checkRoomID(Sensor sensor) {
-        if (!sensor.getRoomId().isEmpty()) {
+    public Response addSensor(Sensor sensor) {
+        if (!roomList.containsKey(sensor.getRoomId())) {
             sensorList.add(sensor);
             return Response.ok("added the sensor successfully").build();
         } else {
@@ -39,9 +41,8 @@ public class SensorResource {
     }
     
     @GET
-    @Path("/{type}")
-    public Response getSensors(
-        @PathParam("type")
+    public ArrayList<Sensor> getSensors(
+        @QueryParam("type")
         SensorType type){
         boolean found=false;
         ArrayList<Sensor> filtered = new ArrayList<>();
@@ -51,13 +52,13 @@ public class SensorResource {
                 found=true;
             }
         }
-        if (found==true){
-        return Response.ok(filtered).build();}
-        else return Response.ok("No such sensors found").build();
         
+        return filtered;
     }
-
-
     
+    @Path("/{sensorId}/reading")
+    public SensorReadingResource getSensorReading(@PathParam("sensorId") String sensorId){
+        return new SensorReadingResource(sensorId);
+    }
 
 }

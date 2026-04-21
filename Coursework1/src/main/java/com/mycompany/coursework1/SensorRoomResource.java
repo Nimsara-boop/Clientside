@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 public class SensorRoomResource {
 
     private static int index = 0;
-    private static Map<String, Room> roomlinks = new HashMap<>();
+    public static Map<String, Room> roomlinks = new HashMap<>();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
